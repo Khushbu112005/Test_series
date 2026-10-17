@@ -1,5 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap");
+
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-georgia: Georgia, serif;
+  --font-dm-sans: "DM Sans", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --font-times: "Times New Roman", serif;
+  --font-playfair: "Playfair Display", serif;
 }
+
+@layer base {
+  button,
+  a {
+    cursor: pointer;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+html,
+body {
+  overflow-x: hidden;
+}
+
+.wide-screen-content {
+  width: 100%;
+  max-width: 1920px;
+  margin-inline: auto;
+}
+
+/* html[data-theme="dark"] {
+  color-scheme: dark;
+  background-color: #050f1a;
+  color: #e5e7eb;
+}
+
+html[data-theme="dark"] body {
+  background-color: #050f1a;
+  color: #e5e7eb;
+} */

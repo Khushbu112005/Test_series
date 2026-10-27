@@ -505,6 +505,7 @@ function RegisterForm({ register, onSubmit, handleSubmit, setValue, errors }) {
           <button
             type="button"
             onClick={() => setShowPasswords(!showPasswords)}
+            aria-pressed={showPasswords}
             className="flex items-center gap-1 text-[#06B6D4] text-[12px] font-dm-sans font-semibold p-0 border-0"
           >
             {showPasswords ? (

@@ -38,7 +38,7 @@ function Navbar() {
     <nav>
       {/* Top Navbar */}
       <div className="rounded-full border border-black/10 bg-[#FFFFFFE5] dark:bg-[#0A1827]">
-        <div className="flex items-center justify-between p-2 sm:p-3 lg:p-4">
+        <div className="flex items-center justify-between p-2 sm:p-3 lg:px-4 lg:py-3">
           {/* Logo */}
           <div className="flex items-center gap-2">
             <Link to="/" className="flex items-center">

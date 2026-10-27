@@ -9,11 +9,5 @@ export default defineConfig({
     host: "0.0.0.0",
     port: 5000,
     strictPort: true,
-
-    hmr: {
-      host: "192.168.0.197",
-      protocol: "ws",
-      port: 5000,
-    },
   },
 });

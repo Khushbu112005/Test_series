@@ -16,5 +16,12 @@ export const endpoints = {
   getPersonalDetails: () => api.get("/profile/personal-details"),
   updatePersonalDetails: (data) => api.post("/profile/personal-details", data),
   getAddress: () => api.get("/profile/address"),
+  getStates: () => api.get("/states"),
+  getCities: (stateId) =>
+    api.get("/cities", {
+      params: {
+        state_id: stateId,
+      },
+    }),
   updateAddress: (data) => api.post("/profile/address", data),
 };

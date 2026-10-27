@@ -5,6 +5,8 @@ import {
   Mail,
   Lock,
   ArrowUpRight,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 
 import FormField from "../ui/FormField";
@@ -15,11 +17,9 @@ function LoginForm({
   onSubmit,
   handleSubmit,
   errors,
-  onSendCode,
-  isSendingOtp,
-  feedback,
 }) {
   const [password, setPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="bg-white dark:bg-[#0B1622] rounded-r-xl">
       {/* Tabs */}
@@ -118,13 +118,26 @@ function LoginForm({
 
               <CustomInput
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Enter Your Password"
                 required
                 error={errors.password}
                 {...register("password", { required: "Password is required" })}
-                className="h-[42px] pl-10 pr-3 text-[12px]"
+                className="h-[42px] pl-10 pr-10 text-[12px]"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword((visible) => !visible)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-pressed={showPassword}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8A9BA3]"
+              >
+                {showPassword ? (
+                  <EyeOff size={16} strokeWidth={1.5} />
+                ) : (
+                  <Eye size={16} strokeWidth={1.5} />
+                )}
+              </button>
             </div>
           </FormField>
         ) : (
@@ -164,17 +177,14 @@ function LoginForm({
 
               <button
                 type="button"
-                onClick={onSendCode}
-                disabled={isSendingOtp}
                 className="text-[#06B6D4] text-[11px] font-semibold whitespace-nowrap disabled:cursor-wait disabled:opacity-60"
               >
-                {isSendingOtp ? "Sending..." : "Send code"}
               </button>
             </div>
           </FormField>
         )}
 
-        {feedback && (
+        {/* {feedback && (
           <p
             role={feedback.type === "error" ? "alert" : "status"}
             aria-live="polite"
@@ -184,7 +194,7 @@ function LoginForm({
           >
             {feedback.message}
           </p>
-        )}
+        )} */}
 
         <button
           type="submit"

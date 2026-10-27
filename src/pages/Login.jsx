@@ -8,21 +8,15 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
-  const [feedback, setFeedback] = useState(null);
-  const [isSendingOtp, setIsSendingOtp] = useState(false);
 
   const {
     register,
     handleSubmit,
-    getValues,
     reset,
-    trigger,
     formState: { errors },
   } = useForm();
 
   const onSubmit = async (data, method) => {
-    setFeedback(null);
-
     try {
       const response =
         method === "password"
@@ -34,10 +28,8 @@ function Login() {
               email: data.email,
               otp: data.otp,
             });
-
       console.log("Login response:", response.data);
       console.log(response.status);
-
       reset();
       navigate("/");
     } catch (error) {
@@ -45,36 +37,35 @@ function Login() {
     }
   };
 
-  const onSendCode = async () => {
-    setFeedback(null);
-    const isEmailValid = await trigger("email");
+  //   setFeedback(null);
+  //   const isEmailValid = await trigger("email");
 
-    if (!isEmailValid) {
-      return;
-    }
+  //   if (!isEmailValid) {
+  //     return;
+  //   }
 
-    setIsSendingOtp(true);
+  //   setIsSendingOtp(true);
 
-    try {
-      const response = await endpoints.sendLoginOtp({
-        email: getValues("email"),
-      });
-      setFeedback({
-        type: "success",
-        message: response.data?.message || "One-time code sent.",
-      });
-    } catch (error) {
-      console.error("Failed to send login code:", error);
-      setFeedback({
-        type: "error",
-        message:
-          error.response?.data?.message ||
-          "Could not send the code. Please try again.",
-      });
-    } finally {
-      setIsSendingOtp(false);
-    }
-  };
+  //   try {
+  //     const response = await endpoints.sendLoginOtp({
+  //       email: getValues("email"),
+  //     });
+  //     setFeedback({
+  //       type: "success",
+  //       message: response.data?.message || "One-time code sent.",
+  //     });
+  //   } catch (error) {
+  //     console.error("Failed to send login code:", error);
+  //     setFeedback({
+  //       type: "error",
+  //       message:
+  //         error.response?.data?.message ||
+  //         "Could not send the code. Please try again.",
+  //     });
+  //   } finally {
+  //     setIsSendingOtp(false);
+  //   }
+  // };
 
   return (
     <AuthLayout
@@ -98,9 +89,6 @@ function Login() {
           handleSubmit={handleSubmit}
           errors={errors}
           onSubmit={onSubmit}
-          onSendCode={onSendCode}
-          isSendingOtp={isSendingOtp}
-          feedback={feedback}
         />
       }
       footerContent={

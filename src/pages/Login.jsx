@@ -5,8 +5,12 @@ import AuthLayout from "../components/common/AuthLayout";
 import LoginForm from "../components/login/LoginForm";
 import { endpoints } from "../services/authService";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
+  const [feedback, setFeedback] = useState("");
+  const { login } = useAuth();
+
   const navigate = useNavigate();
 
   const {
@@ -17,23 +21,28 @@ function Login() {
   } = useForm();
 
   const onSubmit = async (data, method) => {
-    try {
-      const response =
-        method === "password"
-          ? await endpoints.login({
-              username: data.email,
-              password: data.password,
-            })
-          : await endpoints.verifyOtp({
-              email: data.email,
-              otp: data.otp,
-            });
-      console.log("Login response:", response.data);
-      console.log(response.status);
-      reset();
-      navigate("/");
-    } catch (error) {
-      console.error("Login failed:", error);
+    setFeedback("");
+
+    if (method === "password") {
+      const response = await login(data);
+      if (response) {
+        reset();
+        navigate("/");
+      }
+    } else {
+      try {
+        const response = await endpoints.verifyOtp({
+          email: data.email,
+          otp: data.otp,
+        });
+
+        console.log("Otp Response:", response.data);
+
+        reset();
+        navigate("/");
+      } catch (error) {
+        console.error("Otp failed:", error);
+      }
     }
   };
 
@@ -89,6 +98,7 @@ function Login() {
           handleSubmit={handleSubmit}
           errors={errors}
           onSubmit={onSubmit}
+          feedback={feedback}
         />
       }
       footerContent={

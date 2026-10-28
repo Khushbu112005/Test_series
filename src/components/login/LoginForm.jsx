@@ -12,12 +12,7 @@ import {
 import FormField from "../ui/FormField";
 import CustomInput from "../ui/CustomInput";
 
-function LoginForm({
-  register,
-  onSubmit,
-  handleSubmit,
-  errors,
-}) {
+function LoginForm({ register, onSubmit, handleSubmit, errors, feedback }) {
   const [password, setPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -74,13 +69,13 @@ function LoginForm({
             />
 
             <CustomInput
-              id="email"
+              id="username"
               type="text"
               placeholder="you@example.com"
-              error={errors.email}
+              error={errors.username}
               required
-              {...register("email", {
-                required: "Email is required",
+              {...register("username", {
+                required: "username is required",
                 validate: (value) => {
                   const emailPattern = /^\S+@\S+\.\S+$/;
                   const phonePattern = /^\+?[\d\s()-]+$/;
@@ -91,7 +86,7 @@ function LoginForm({
                     (phonePattern.test(value) &&
                       phoneDigits >= 8 &&
                       phoneDigits <= 15) ||
-                    "Enter a valid email address or phone number"
+                    "Enter a valid username or phone number"
                   );
                 },
               })}
@@ -178,23 +173,24 @@ function LoginForm({
               <button
                 type="button"
                 className="text-[#06B6D4] text-[11px] font-semibold whitespace-nowrap disabled:cursor-wait disabled:opacity-60"
-              >
-              </button>
+              ></button>
             </div>
           </FormField>
         )}
 
-        {/* {feedback && (
-          <p
+        {feedback && (
+          <div
             role={feedback.type === "error" ? "alert" : "status"}
             aria-live="polite"
-            className={`text-[12px] ${
-              feedback.type === "error" ? "text-red-500" : "text-emerald-600"
+            className={`rounded-lg border p-3 text-[12px] ${
+              feedback.type === "error"
+                ? "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-300"
+                : "border-emerald-200 bg-emerald-50 text-emerald-700"
             }`}
           >
             {feedback.message}
-          </p>
-        )} */}
+          </div>
+        )}
 
         <button
           type="submit"

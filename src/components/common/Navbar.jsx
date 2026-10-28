@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
 import logo from "../../assets/images/logo.png";
@@ -7,9 +7,17 @@ import rightarrow from "../../assets/icons/rightarrow.png";
 
 import Button from "../ui/Button";
 import ModeButton from "../ui/ModeButton";
+import { useAuth } from "../../context/AuthContext";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
 
   const menus = [
     {
@@ -80,16 +88,25 @@ function Navbar() {
           <div className="hidden items-center gap-4 lg:flex">
             <ModeButton />
 
-            <Link to="/login">
-              <Button className="flex items-center gap-2 px-5 py-3 text-[11px] font-semibold whitespace-nowrap">
-                Login / Register
-                <img
-                  src={rightarrow}
-                  alt=""
-                  className="h-[14px] w-[14px] -rotate-45 object-contain"
-                />
+            {isAuthenticated ? (
+              <Button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-5 py-3 text-[11px] font-semibold whitespace-nowrap"
+              >
+                Logout
               </Button>
-            </Link>
+            ) : (
+              <Link to="/login">
+                <Button className="flex items-center gap-2 px-5 py-3 text-[11px] font-semibold whitespace-nowrap">
+                  Login / Register
+                  <img
+                    src={rightarrow}
+                    alt=""
+                    className="h-[14px] w-[14px] -rotate-45 object-contain"
+                  />
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Actions */}
@@ -136,23 +153,38 @@ function Navbar() {
             </NavLink>
           ))}
 
-          {/* Mobile Login */}
-          <Link
-            to="/login"
-            onClick={() => setIsMenuOpen(false)}
-            className="font-inter text-[18px] font-semibold text-[#616161] transition-colors hover:text-[#06B6D4] dark:text-slate-300 dark:hover:text-[#06B6D4]"
-          >
-            Login
-          </Link>
+          {isAuthenticated ? (
+            <button
+              type="button"
+              onClick={() => {
+                setIsMenuOpen(false);
+                handleLogout();
+              }}
+              className="font-inter text-[18px] font-semibold text-[#616161] transition-colors hover:text-[#06B6D4] dark:text-slate-300 dark:hover:text-[#06B6D4]"
+            >
+              Logout
+            </button>
+          ) : (
+            <>
+              {/* Mobile Login */}
+              <Link
+                to="/login"
+                onClick={() => setIsMenuOpen(false)}
+                className="font-inter text-[18px] font-semibold text-[#616161] transition-colors hover:text-[#06B6D4] dark:text-slate-300 dark:hover:text-[#06B6D4]"
+              >
+                Login
+              </Link>
 
-          {/* Mobile Register */}
-          <Link
-            to="/register"
-            onClick={() => setIsMenuOpen(false)}
-            className="font-inter text-[18px] font-semibold text-[#616161] transition-colors hover:text-[#06B6D4] dark:text-slate-300 dark:hover:text-[#06B6D4]"
-          >
-            Register
-          </Link>
+              {/* Mobile Register */}
+              <Link
+                to="/register"
+                onClick={() => setIsMenuOpen(false)}
+                className="font-inter text-[18px] font-semibold text-[#616161] transition-colors hover:text-[#06B6D4] dark:text-slate-300 dark:hover:text-[#06B6D4]"
+              >
+                Register
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

@@ -36,13 +36,15 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       await endpoints.logout();
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
-      setUser(null);
-      setToken(null);
     } catch (error) {
       console.error("Error logging out:", error);
     }
+    //  finally {
+    //   localStorage.removeItem("user");
+    //   localStorage.removeItem("token");
+    //   setUser(null);
+    //   setToken(null);
+    // }
   };
   return (
     <AuthContext.Provider

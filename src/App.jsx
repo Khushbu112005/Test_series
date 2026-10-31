@@ -21,6 +21,10 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ShippingDeliveryPolicy from "./pages/ShippingDeliveryPolicy";
 import Checkout from "./pages/Checkout";
 import ScrollToTop from "./components/common/ScrollToTop";
+import ProtectedRoute from "./components/common/ProtectedRoute";
+import Dashboard from "./pages/student/Dashboard";
+import GuestRoute from "./components/common/GuestRoute";
+import NotFound from "./pages/NotFound";
 // import { useEffect } from "react";
 // import api from "./services/api";
 // import homeService from "./services/homeService";
@@ -93,9 +97,16 @@ function App() {
           />
         </Route>
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route element={<GuestRoute />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
       </Routes>
     </Router>
   );
